@@ -21,6 +21,7 @@ var catalogPage = require('./CatalogPage.js');
 	
 
 		expect(browser.getTitle()).toEqual("Dashboards");
+		browser.close();
 	});
 	
 
@@ -38,21 +39,28 @@ var catalogPage = require('./CatalogPage.js');
 		expect(dashBoardPage.getDashBoardMenu().isPresent()).toBe(true);
 
 		dashBoardPage.enterSearchKey("chin");
+		browser.close();
 	});
 
-	it('fill login and search catalog', function(){
-		browser.waitForAngularEnabled(false);
-		customerPage.doLogin();
-		catalogPage.navigateToCatalog();
 
-		expect(browser.getCurrentUrl()).toContain('#/catalog');
 
-		catalogPage.getPageTitle().then(function(text){
-			console.log("page title: " + text);
-		});	
-		expect(catalogPage.getPageTitle()).toEqual("Catalog");
-		
+	describe('do login and search catalog', function(){
 
+		it('fill login and search catalog', function(){
+			browser.waitForAngularEnabled(false);
+			customerPage.doLogin();
+			catalogPage.navigateToCatalog();
+
+			expect(browser.getCurrentUrl()).toContain('#/catalog');
+
+			browser.getTitle().then(function(text){
+				console.log("page title: " + text);
+			});	
+
+			expect(browser.getTitle()).toEqual("Catalog");
+			catalogPage.searchCatalog("chin");
+
+		});
 
 	});
 
